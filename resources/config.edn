@@ -1,0 +1,3 @@
+{:infra.http.server/server {:port  8080
+                            :join? #profile{:default false
+                                            :prod    true}}}
