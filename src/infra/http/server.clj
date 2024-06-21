@@ -6,10 +6,12 @@
 
 (defmethod ig/init-key ::server [_ {:keys [port routes join?]
                                     :or   {port   8080
-                                           routes []}}]
-  (let [routes (conj routes ["/hello" {:get (fn [req] {:status 200
-                                                       :body   "Hello, World!"})}])
-        routes (route/expand-routes routes)
+                                           routes #{["/hello"
+                                                     :get (fn [req] (tap> req)
+                                                            {:status 200
+                                                             :body   (str req)})
+                                                     :route-name :hello]}}}]
+  (let [routes (route/expand-routes routes)
         _ (tap> routes)
         server (http/create-server {::http/routes  routes
                                     ::http/type    :jetty
@@ -17,7 +19,7 @@
                                     ::http/host    "0.0.0.0"
                                     ::http/port    port
                                     ::http/tracing (interceptor/interceptor
-                                                     {:leave #(doto % tap>)})})]
+                                                     {:leave (fn [ctx] (tap> ctx) nil)})})]
 
 
     (http/start server)))
