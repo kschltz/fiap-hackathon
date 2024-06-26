@@ -1,3 +1,5 @@
-{:infra.http.server/server {:port  8080
+{:infra.http.xtdb/xtdb {}
+ :infra.http.server/server {:port  8080
+                            :app-context {:xtdb #ig/ref :infra.http.xtdb/xtdb}
                             :join? #profile{:default false
                                             :prod    true}}}
