@@ -1,11 +1,8 @@
 {:infra.http.xtdb/xtdb
  {}
 
- :domain.adapter.http/routes {}
-
  :infra.http.server/server
  {:port        8080
-  :routes     #ig/ref :domain.adapter.http/routes
   :app-context {:xtdb #ig/ref :infra.http.xtdb/xtdb}
   :join?       #profile{:default false
                         :prod    true}}}
