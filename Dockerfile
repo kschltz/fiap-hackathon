@@ -16,5 +16,5 @@ RUN mkdir -p /service
 WORKDIR /service
 ENV HTTP_PORT=8080
 EXPOSE 8080
-COPY --from=builder /build/target/server-1.0.4-standalone.jar /service/server.jar
+COPY --from=builder /build/target/server-1.0.0-standalone.jar /service/server.jar
 ENTRYPOINT ["java", "-jar", "/service/server.jar"]
