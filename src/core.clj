@@ -5,9 +5,8 @@
             [aero.core :as aero]))
 
 (defmethod aero/reader 'ig/ref
-  [opts tag value]
+  [_opts _tag value]
   (ig/ref value))
-
 
 (defn -main [& [profile]]
   (let [profile (-> profile (or "dev") keyword)

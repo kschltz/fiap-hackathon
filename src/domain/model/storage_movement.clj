@@ -1,5 +1,6 @@
 (ns domain.model.storage-movement
   (:require [domain.model.storage-unit :refer [StorageUnitId]]
+            [domain.model.validation :as validation]
             [domain.model.beverage :refer [BeverageId]]
             [malli.util :as mu]))
 
@@ -8,9 +9,13 @@
 (def MovementType
   [:enum "in" "out"])
 
+(def domain
+  ::movement)
+
 (def MovementMetadata
   [:map
-   [:id MovementId]
+   [:xt/id MovementId]
+   [:xt/type [:= domain]]
    [:time inst?]
    [:type MovementType]
    [:beverage BeverageId]
@@ -28,6 +33,8 @@
     MovementMetadata
     [:map [:type [:= "in"]]]))
 
-
 (def StorageMovement
   [:or Deliver Receive])
+
+(defn assert [data]
+  (validation/assert StorageMovement data))
