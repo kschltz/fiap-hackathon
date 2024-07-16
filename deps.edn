@@ -1,0 +1,28 @@
+{:paths   ["src" "resources"]
+ :deps    {aero/aero                    {:mvn/version "1.1.6"}
+           com.xtdb/xtdb-core           {:mvn/version "1.24.3"}
+           integrant/integrant          {:mvn/version "0.10.0"}
+           integrant/repl               {:mvn/version "0.3.3"}
+           io.pedestal/pedestal.jetty   {:mvn/version "0.7.0-rc-2"}
+           io.pedestal/pedestal.service {:mvn/version "0.7.0-rc-2"}
+           io.pedestal/pedestal.error   {:mvn/version "0.7.0-rc-2"}
+           metosin/malli                {:mvn/version "0.16.1"}
+           hato/hato                    {:mvn/version "1.0.0"}
+           org.clojure/data.json        {:mvn/version "2.5.0"}
+           org.slf4j/slf4j-simple       {:mvn/version "2.0.10"}}
+ :aliases {:test  {:extra-paths ["test" "resources"]
+                   :extra-deps  {org.clojure/test.check {:mvn/version "1.1.1"}
+                                 eftest/eftest          {:mvn/version "0.5.9"}
+                                 fundingcircle/jukebox  {:mvn/version "1.0.6"}
+                                 cloverage/cloverage    {:mvn/version "1.2.2"}}
+                   :exec-fn     cloverage.coverage/run-project
+                   :exec-args   {:test-ns-path ["test"]
+                                 :src-ns-path  ["src"]
+                                 :runner       :eftest
+                                 :runner-opts  {:fail-fast? true}}}
+           :dev   {:extra-paths ["dev"]
+                   :jvm-opts    [;"-Dorg.slf4j.simpleLogger.defaultLogLevel=debug"
+                                 ]}
+           ;; Run with clj -T:build function-in-build
+           :build {:deps       {io.github.clojure/tools.build {:git/tag "v0.10.4" :git/sha "31388ff"}}
+                   :ns-default build}}}
