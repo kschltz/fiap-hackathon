@@ -12,8 +12,10 @@
                                       ig/load-namespaces)))
 
 (defn db []
-  (xt/db (:infra.http.xtdb/xtdb integrant.repl.state/system)))
+  (xt/db (:infra.xtdb/xtdb integrant.repl.state/system)))
 
+(defn auth []
+  (:infra.auth/auth integrant.repl.state/system))
 
 (defn store-bev [& {:keys [alcoholic? storage-unit-id]
                     :or   {storage-unit-id 1}}]

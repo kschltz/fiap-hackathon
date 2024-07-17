@@ -1,8 +1,13 @@
-{:infra.http.xtdb/xtdb
+{:infra.xtdb/xtdb
  {}
+ :infra.auth/auth
+ {:domain        #env AUTH_DOMAIN
+  :client_id     #env AUTH_CLIENT_ID
+  :client_secret #env AUTH_CLIENT_SECRET
+  :audience      #env AUTH_AUDIENCE}
 
  :infra.http.server/server
  {:port        8080
-  :app-context {:xtdb #ig/ref :infra.http.xtdb/xtdb}
+  :app-context {:xtdb #ig/ref :infra.xtdb/xtdb}
   :join?       #profile{:default false
                         :prod    true}}}

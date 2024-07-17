@@ -1,4 +1,4 @@
-(ns infra.http.xtdb
+(ns infra.xtdb
   (:require [xtdb.api :as xtdb]
             [integrant.core :as ig]))
 
