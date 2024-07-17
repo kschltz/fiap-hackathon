@@ -33,6 +33,11 @@ Para mais detalhes sobre o modelo de domínio, os eventos de domínio e os conte
 
 O sistema deve estar disponível 24/7, ser capaz de lidar com alta demanda e seguir as melhores práticas de segurança da informação, especialmente no que diz respeito à proteção dos dados sensíveis dos pacientes.
 
+## Arquitetura cloud
+
+Para uma visão detalhada da infraestrutura e desenho da aplicação você pode consultar o [arquivo da arquitetura](doc/cloud_infra.md).
+
+
 ### Licença
 
 Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
