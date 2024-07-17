@@ -20,7 +20,7 @@ jobs:
 
       - uses: zharinov/clj-toolbox@v1.0.3
       - name: Clojure essential tooling
-        run: clojure -T:build build/uberjar :project hmed
+        run: clojure -T:build build/uber :project hmed
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
