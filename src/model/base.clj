@@ -33,7 +33,7 @@
 
 
 (comment
-
+(hash "pass")
   (let [user
         [:or model.paciente/Paciente
          model.medico/Medico]]

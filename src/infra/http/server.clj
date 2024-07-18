@@ -2,6 +2,7 @@
   (:require [clojure.data.json :as json]
             [integrant.core :as ig]
             [io.pedestal.http :as http]
+            [io.pedestal.http.body-params :refer [body-params]]
             [io.pedestal.interceptor :as interceptor]
             [io.pedestal.interceptor.error :as error]))
 
@@ -38,6 +39,7 @@
                     ::http/port            port}
                    (http/default-interceptors)
                    (update ::http/interceptors conj
+                           (body-params)
                            (interceptor/interceptor
                              {:name  ::set-app-ctx
                               :enter (fn [{:keys [app] :as ctx}]

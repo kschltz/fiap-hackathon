@@ -7,6 +7,7 @@
 (def Paciente
   [:map
    [:nome :string]
+   [:senha {:encode/db base/hash} :string]
    [:cpf {:encode/db model.base/hash} cpf/CPF]])
 
 (defn assert-paciente [data]

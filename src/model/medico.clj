@@ -7,6 +7,7 @@
   [:map
    [:nome :string]
    [:especialidade :string]
+   [:senha {:encode/db base/hash} :string]
    [:crm crm/CRM]])
 
 (defn assert-medico [data]
