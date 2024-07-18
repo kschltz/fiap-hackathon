@@ -6,6 +6,19 @@
   :client_secret #env AUTH_CLIENT_SECRET
   :audience      #env AUTH_AUDIENCE}
 
+ :infra.migrations/migrations
+ {:node #ig/ref :infra.xtdb/xtdb
+  :data [{:nome "Zé do olho", :especialidade "oftalmologia", :crm "000000-00-SP", :xt/id #uuid"d150fbec-cbc1-41a8-8073-de53ab309262"}
+         {:nome "Paciente 0", :cpf "34607001651", :xt/id #uuid"7b604804-3807-4fb1-8761-6b4ab0ef7b82"}
+         {:nome "Paciente 1", :cpf "25146990964", :xt/id #uuid"ca0d1c80-0401-47c4-94e3-496580e15e53"}
+         {:nome "Paciente 2", :cpf "70693875399", :xt/id #uuid"8fb44bc1-2b77-4239-8c06-72f06e2aa581"}
+         {:nome "Paciente 3", :cpf "96055788080", :xt/id #uuid"cfb7be64-738f-4630-8b59-b5e9ba867d8e"}
+         {:nome "Paciente 4", :cpf "34570386008", :xt/id #uuid"ea2519ff-2a51-4c74-a18d-2b4da9b303fd"}
+         {:nome "Dentisto", :especialidade "odontologia", :crm "654536-44-SP", :xt/id #uuid"c3e47c29-31b4-4e49-a408-179772823f7c"}
+         {:nome "Cerebral", :especialidade "neurologia", :crm "464515-55-SP", :xt/id #uuid"f07c4f60-8d40-4b84-800d-4884db4a29d3"}
+         {:nome "Paciente 5", :cpf "61999193784", :xt/id #uuid"6cc4fbf9-a78c-4d97-b89d-bb3cf585a2b3"}
+         {:nome "Doidista", :especialidade "psiquiatra", :crm "487545-35-SP", :xt/id #uuid"a51b6d0c-3853-4993-8c4e-ff3a75b1cc9e"}]}
+
  :infra.http.server/server
  {:port        8080
   :app-context {:xtdb #ig/ref :infra.xtdb/xtdb}
