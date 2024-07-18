@@ -11,6 +11,9 @@
                                                             {:profile :dev})
                                       ig/load-namespaces)))
 
+(defn node []
+  (:infra.xtdb/xtdb integrant.repl.state/system))
+
 (defn db []
   (xt/db (:infra.xtdb/xtdb integrant.repl.state/system)))
 
@@ -29,14 +32,14 @@
                   (hc/get)
                   :body
                   (json/read-str :key-fn keyword))]
-     (tap> [b1 b2])
+    (tap> [b1 b2])
     (-> (hc/post "http://localhost:8080/beverage/store"
-                 {:body         (json/write-str
-                                  {:storage-unit-id storage-unit-id
-                                   :beverage-id     (:id b1)
-                                   :liters          25
-                                   :employee        "KAUE"})
-                  :content-type :json
+                 {:body              (json/write-str
+                                       {:storage-unit-id storage-unit-id
+                                        :beverage-id     (:id b1)
+                                        :liters          25
+                                        :employee        "KAUE"})
+                  :content-type      :json
                   :throw-exceptions? false})
         (update :body json/read-str)))
   )

@@ -1,7 +1,8 @@
 (ns value-object.cpf
   (:require [clojure.string :as str]
             [malli.core :as m]
-            [clojure.spec.gen.alpha :as gen]))
+            [clojure.spec.gen.alpha :as gen]
+            [model.base :as base]))
 
 (defn trim-cpf [cpf]
   (str/replace cpf #"[^\d]" ""))
@@ -37,5 +38,6 @@
   (m/-simple-schema
     {:type            ::CPF
      :pred            valid?
-     :type-properties {:error-message "CPF inválido"
-                       :gen/gen       (gen/fmap (fn [_] (gen-cpf)) (gen/return nil))}}))
+     :type-properties {:error-message    "CPF inválido"
+                       :encode/db base/hash
+                       :gen/gen          (gen/fmap (fn [_] (gen-cpf)) (gen/return nil))}}))

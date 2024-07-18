@@ -7,6 +7,9 @@
            io.pedestal/pedestal.service {:mvn/version "0.7.0-rc-2"}
            io.pedestal/pedestal.error   {:mvn/version "0.7.0-rc-2"}
            metosin/malli                {:mvn/version "0.16.1"}
+           buddy/buddy                  {:mvn/version "2.0.0"}
+           buddy/buddy-core             {:mvn/version "1.11.423"}
+           buddy/buddy-sign             {:mvn/version "3.5.351"}
            hato/hato                    {:mvn/version "1.0.0"}
            org.clojure/data.json        {:mvn/version "2.5.0"}
            org.slf4j/slf4j-simple       {:mvn/version "2.0.10"}}
