@@ -1,18 +1,19 @@
 (ns model.base
-  (:require [malli.error :as me]
-            [buddy.hashers :as hashers]
+  (:require [buddy.hashers :as hashers]
             [malli.core :as m]
+            [malli.error :as me]
             [malli.generator :as mg]
-            [malli.transform :as mt]
-            [malli.util :as mu]))
+            [malli.transform :as mt]))
 
 (defn hash [x]
   (hashers/derive x))
 
+(defn hashed-compared [x hashed]
+  (hashers/check x hashed))
+
 (def db-transformer
   (mt/transformer
     {:name :db}))
-
 
 (defn ->db [schema data]
   (m/encode [:and
@@ -30,14 +31,3 @@
                     {:data   data
                      :result result}))
     data))
-
-
-(comment
-(hash "pass")
-  (let [user
-        [:or model.paciente/Paciente
-         model.medico/Medico]]
-    (->> (mg/sample user)
-         (map #(->db user %))))
-
-  )

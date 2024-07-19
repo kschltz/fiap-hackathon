@@ -4,7 +4,7 @@
             [model.base :as base]))
 
 (def Medico
-  [:map
+  [:map {:encode/db (fn [x] (assoc x :xt/type :medico))}
    [:nome :string]
    [:especialidade :string]
    [:senha {:encode/db base/hash} :string]

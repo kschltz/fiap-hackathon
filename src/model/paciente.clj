@@ -1,11 +1,9 @@
 (ns model.paciente
-  (:require [malli.core :as m]
-            [malli.generator :as mg]
-            [value-object.cpf :as cpf]
-            [model.base :as base]))
+  (:require [model.base :as base]
+            [value-object.cpf :as cpf]))
 
 (def Paciente
-  [:map
+  [:map {:encode/db (fn [x] (assoc x :xt/type :paciente))}
    [:nome :string]
    [:senha {:encode/db base/hash} :string]
    [:cpf {:encode/db model.base/hash} cpf/CPF]])
