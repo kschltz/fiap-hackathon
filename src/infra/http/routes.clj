@@ -30,9 +30,8 @@
 (comment
 
   (hato.client/post
-    "http://localhost:8080/login"
+    "http://hackathon-hmed-alb-1275940250.us-west-1.elb.amazonaws.com:8080/login"
     {:content-type :json
-     :body
-     (json/write-str {:crm   "654536-44-SP",
-                      :senha "pass"})})
+     :body         (json/write-str {:crm   "654536-44-SP",
+                                    :senha "pass"})})
   )

@@ -1,5 +1,25 @@
 {:infra.xtdb/xtdb
- {}
+ #profile{:prod
+          {:xtdb.jdbc/connection-pool
+           {:dialect   {:xtdb/module xtdb.jdbc.psql/->dialect}
+            :pool-opts {:maximumPoolSize     10
+                        :minimumIdle         1
+                        :idleTimeout         60000
+                        :connectionTimeout   30000
+                        :maxLifetime         1800000
+                        :auto-commit         false
+                        :validationTimeout   5000
+                        :connectionTestQuery "SELECT 1"}
+            :db-spec   {:host     #or[#env DB_HOST "0.0.0.0"]
+                        :port     #long #or[#env DB_PORT 5432]
+                        :dbname   #or[#env DB_NAME "postgres"]
+                        :user     #or[#env DB_USER "postgres"]
+                        :password #or[#env DB_PASS "password"]}}
+           :xtdb/tx-log         {:xtdb/module     xtdb.jdbc/->tx-log
+                                 :connection-pool :xtdb.jdbc/connection-pool}
+           :xtdb/document-store {:xtdb/module     xtdb.jdbc/->document-store
+                                 :connection-pool :xtdb.jdbc/connection-pool}}
+          :default {}}
  :infra.auth/auth
  {:domain        #env AUTH_DOMAIN
   :client_id     #env AUTH_CLIENT_ID
@@ -29,4 +49,4 @@
   :app-context {:auth #ig/ref :infra.auth/auth
                 :xtdb #ig/ref :infra.xtdb/xtdb}
   :join?       #profile{:default false
-                        :prod    true}}}
+                        :prod    false}}}
