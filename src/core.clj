@@ -1,6 +1,7 @@
 (ns core
   (:gen-class)
   (:require [clojure.java.io :as io]
+            [clojure.tools.logging :as log]
             [integrant.core :as ig]
             [aero.core :as aero]))
 
@@ -13,4 +14,5 @@
         config (aero/read-config (io/resource "config.edn")
                                  {:profile profile})
         _ (ig/load-namespaces config)
+        _ (log/info "strating system...")
         system (ig/init config)]))

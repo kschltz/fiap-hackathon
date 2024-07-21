@@ -18,6 +18,7 @@ import {LbListener} from "@cdktf/provider-aws/lib/lb-listener";
 import {DataAwsEcrRepository} from "@cdktf/provider-aws/lib/data-aws-ecr-repository";
 
 export class CompleteECS extends Construct {
+    public alb: Alb;
     constructor(scope: Construct, id: string,
                 cfg: {
                     ecsCluster: EcsCluster,
@@ -160,7 +161,7 @@ export class CompleteECS extends Construct {
         });
 
 
-        const alb = new Alb(this, "alb", {
+        this.alb = new Alb(this, "alb", {
             name: serviceName + "-alb",
             internal: false,
             securityGroups: [albSG.id],
@@ -177,7 +178,7 @@ export class CompleteECS extends Construct {
                 type: "forward",
                 targetGroupArn: albTg.arn
             }],
-            loadBalancerArn: alb.arn,
+            loadBalancerArn: this.alb.arn,
             port: servicePort,
             protocol: "HTTP",
         })
@@ -232,7 +233,7 @@ export class CompleteECS extends Construct {
         })
 
         new TerraformOutput(this, "alb-dns", {
-            value: alb.dnsName
+            value: this.alb.dnsName
         })
 
 
