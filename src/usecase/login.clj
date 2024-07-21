@@ -11,17 +11,16 @@
         doc-clause (if crm
                      ['e :crm crm]
                      ['e :cpf (base/hash cpf)])
-        user (-> (ffirst (xt/q db
-                               {:find  '[(pull e [*])]
-                                :in    '[h-compare senha]
-                                :where [doc-clause
-                                        '[e :senha s]
-                                        '[(h-compare senha s)]]}
-                               base/hashed-compared
-                               senha))
-                 (assoc :expires-at (str (.plusMinutes
-                                           (LocalDateTime/now)
-                                           30))))]
+        user (some-> (ffirst (xt/q db
+                                   {:find  '[(pull e [*])]
+                                    :in    '[h-compare senha]
+                                    :where [doc-clause
+                                            '[e :senha s]
+                                            '[(h-compare senha s)]]}
+                                   base/hashed-compared
+                                   senha))
+                     (assoc :expires-at (str (.plusMinutes (LocalDateTime/now)
+                                                           30))))]
     (auth/sign auth (json/write-str user))))
 
 
@@ -29,11 +28,12 @@
 
 (comment
   (base/hashed-compared "pass" (base/hash "pass"))
-  (login (user/node) (user/auth)
-         {:crm   "654536-44-SP",
-          :senha "pass"})
+  (->> (login (user/node) (user/auth)
+              {:crm   "654536-44-SP",
+               :senha "pass"})
+       (auth/unsign (user/auth)))
 
   (xt/q (user/db)
         '{:find  [(pull e [*])]
-          :where [[e :crm]]})
+          :where [[e :xt/id]]})
   )

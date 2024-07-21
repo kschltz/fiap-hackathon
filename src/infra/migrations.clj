@@ -12,6 +12,6 @@
 (defmethod ig/halt-key! ::migrations [_ {:keys [node data]}]
   (->> data
        (map :xt/id)
-       (map #(vector ::xt/evict %))
+       (map #(vector ::xt/delete %))
        (into [])
        (xt/submit-tx node)))

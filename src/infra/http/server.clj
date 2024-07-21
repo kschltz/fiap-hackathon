@@ -1,16 +1,33 @@
 (ns infra.http.server
   (:require [clojure.data.json :as json]
+            [clojure.string :as str]
+            [infra.auth :as auth]
             [integrant.core :as ig]
             [io.pedestal.http :as http]
             [io.pedestal.http.body-params :refer [body-params]]
             [io.pedestal.interceptor :as interceptor]
-            [io.pedestal.interceptor.error :as error]))
+            [io.pedestal.interceptor.error :as error])
+  (:import (java.time LocalDateTime)))
 
 (defn- hello [_req]
   (tap> [::hello _req])
   {:status  200
    :headers {"Content-Type" "text/plain"}
    :body    "Hello, World!"})
+
+(def authenticate-interceptor
+  (interceptor/interceptor
+    {:name  ::auth-interceptor
+     :enter (fn [{{:keys [auth]} :app :as ctx}]
+              (tap> (get-in ctx [:request :headers "authorization"]))
+              (let [{:strs [expires-at type] :as token} (->> (str/replace (get-in ctx [:request :headers "authorization"]) #"^Bearer " "")
+                                                             (auth/unsign auth)
+                                                             json/read-str)]
+
+                (if (and type (.isBefore (LocalDateTime/now)
+                                         (LocalDateTime/parse expires-at)))
+                  (assoc-in ctx [:request :user] token)
+                  (assoc ctx :response {:status 401 :body {:message "Unauthorized"}}))))}))
 
 (def service-error-handler
   (error/error-dispatch
