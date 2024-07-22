@@ -29,6 +29,15 @@
                   (assoc-in ctx [:request :user] token)
                   (assoc ctx :response {:status 401 :body {:message "Unauthorized"}}))))}))
 
+(defn type-exclusive-interceptor [& types]
+  (interceptor/interceptor
+    {:name  ::type-exclusive-interceptor
+     :enter (fn [{{{:strs [type]} :user} :request :as ctx}]
+              (tap> [::36 types type (contains? (set types) type)])
+              (if (contains? (set types) type)
+                ctx
+                (assoc ctx :response {:status 403 :body {:message "Forbidden"}})))}))
+
 (def service-error-handler
   (error/error-dispatch
     [ctx ex]
