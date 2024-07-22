@@ -14,11 +14,22 @@
        :headers {"Content-Type" "application/json"}
        :body    (.getMessage e)})))
 
+(defn save-calendar [{:keys [app json-params]}]
+  (try
+    (let [{:keys [xtdb]} app]
+      (uc.calendar/save-calendar xtdb calendar)
+      {:status 200})
+    (catch Exception e
+      {:status  500
+       :headers {"Content-Type" "application/json"}
+       :body    (.getMessage e)}))
+
 (def routes
   ["/medic" ^:interceptors [server/authenticate-interceptor
-                            (server/type-exclusive-interceptor "medico")]
+                            (server/type-exclusive-interceptor "paciente")]
 
-   {:get `search-medic}])
+   {:get `search-medic}
+   ["/calendar" {:post }]])
 
 
 (comment
