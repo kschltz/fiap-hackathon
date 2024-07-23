@@ -1,18 +1,16 @@
 (ns model.calendar
   (:require [clojure.test.check.generators :as gen]
             [malli.core :as m]
-            [malli.generator :as mg])
+            [model.base :as base])
   (:import (java.time LocalTime)))
 
-(defn valid? [x]
+(defn valid-time? [x]
   (instance? LocalTime x))
-
-(LocalTime/now)
 
 (def Time
   (m/-simple-schema
     {:type            ::Time
-     :pred            valid?
+     :pred            valid-time?
      :type-properties {:error-message "horário inválido"
                        :gen/gen       (gen/fmap
                                         (fn [n] (LocalTime/of (mod n 12)
@@ -36,8 +34,6 @@
    [:day [:int {:min 1 :max 31}]]
    [:availabilities [:sequential Availability]]])
 
+(defn assert-calendar [x]
+  (base/assert Calendar x))
 
-(comment
-  (->>
-    (model.base/->db Calendar (mg/generate Calendar)))
-  )
