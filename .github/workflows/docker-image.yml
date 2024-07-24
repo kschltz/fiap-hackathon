@@ -14,9 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: ls
-        run: ls -la
-
+      - uses: zharinov/clj-toolbox@v1.0.3
       - name: test coverage
         run: clojure -X:test
 
