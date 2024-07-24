@@ -1,5 +1,6 @@
 (ns build
-  (:require [clojure.tools.build.api :as b]))
+  (:require [clojure.tools.build.api :as b]
+            [clojure.tools.deps :as t]))
 
 
 (def version "1.0.0")
@@ -25,3 +26,25 @@
            :uber-file (uber-file project)
            :basis     @basis
            :main      'core}))
+
+
+(defn test
+      "Run all the tests."
+      [opts]
+      (println "\nRunning tests...")
+      (let [basis (b/create-basis {:aliases [:test]})
+            combined (t/combine-aliases basis [:test])
+            cmds (b/java-command
+                   {:basis     basis
+                    :java-opts (:jvm-opts combined)
+                    :main      'clojure.main
+                    :main-args ["-m"
+                                "cloverage.coverage"
+                                "--codecov"
+                                "--lcov"
+                                "--no-html"
+                                "--test-ns-path" "test"
+                                "--src-ns-path" "src"]})
+            {:keys [exit]} (b/process cmds)]
+           (when-not (zero? exit) (throw (ex-info "Tests failed" {}))))
+      opts)

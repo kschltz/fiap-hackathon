@@ -30,15 +30,8 @@ jobs:
           cli: 1.11.3.1463               # Clojure CLI based on tools.deps
 
 
-      - name: Setup Testcontainers Cloud Client
-        uses: atomicjar/testcontainers-cloud-setup-action@v1
-        with:
-          token: ${{ secrets.TC_CLOUD_TOKEN }}
-          wait: false
-
-
       - name: Execute tests
-        run: clojure -X:test
+        run: clj -T:build test
 
       - name: list project
         run: ls -la
