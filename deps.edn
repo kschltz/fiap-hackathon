@@ -15,7 +15,9 @@
            org.clojure/data.json        {:mvn/version "2.5.0"}
            org.postgresql/postgresql    {:mvn/version "42.7.3"}
            org.slf4j/slf4j-simple       {:mvn/version "2.0.10"}}
- :aliases {:test  {:extra-paths ["test" "resources"]
+ :aliases {
+           ;; clojure -X:test
+           :test  {:extra-paths ["test" "resources"]
                    :extra-deps  {org.clojure/test.check {:mvn/version "1.1.1"}
                                  eftest/eftest          {:mvn/version "0.5.9"}
                                  fundingcircle/jukebox  {:mvn/version "1.0.6"}

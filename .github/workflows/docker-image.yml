@@ -11,12 +11,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
-
     steps:
       - uses: actions/checkout@v4
 
       - name: ls
         run: ls -la
+
+      - name: test coverage
+        run: clojure -X:test
 
       - uses: zharinov/clj-toolbox@v1.0.3
       - name: Clojure essential tooling
