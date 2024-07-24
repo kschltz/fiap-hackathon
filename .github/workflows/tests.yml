@@ -31,7 +31,7 @@ jobs:
 
 
       - name: Execute tests
-        run: clj -T:build test
+        run: clojure -T:build test
 
       - name: list project
         run: ls -la
