@@ -29,7 +29,9 @@
                                  :runner-opts  {:lvoc? true
                                                 :html? true
                                                 :fail-threshold 10
-                                                :fail-fast? true}}}
+                                                :fail-fast? true}}
+                   :jvm-opts ["--add-opens=java.base/java.nio=ALL-UNNAMED"
+                              "-Dio.netty.tryReflectionSetAccessible=true"]}}
            :dev   {:extra-paths ["dev"]
                    :jvm-opts    [;"-Dorg.slf4j.simpleLogger.defaultLogLevel=debug"
                                  ]}
