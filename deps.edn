@@ -26,7 +26,10 @@
                    :exec-args   {:test-ns-path ["test"]
                                  :src-ns-path  ["src"]
                                  :runner       :eftest
-                                 :runner-opts  {:fail-fast? true}}}
+                                 :runner-opts  {:lvoc? true
+                                                :html? true
+                                                :fail-threshold 10
+                                                :fail-fast? true}}}
            :dev   {:extra-paths ["dev"]
                    :jvm-opts    [;"-Dorg.slf4j.simpleLogger.defaultLogLevel=debug"
                                  ]}
