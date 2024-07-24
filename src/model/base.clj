@@ -2,7 +2,6 @@
   (:require [buddy.hashers :as hashers]
             [malli.core :as m]
             [malli.error :as me]
-            [malli.generator :as mg]
             [malli.transform :as mt]))
 
 (defn hash [x]
@@ -14,6 +13,13 @@
 (def db-transformer
   (mt/transformer
     {:name :db}))
+
+(def json-transformer
+  (mt/transformer
+    {:name :custom-json}))
+
+(defn json-> [schema data]
+  (m/decode schema data json-transformer))
 
 (defn ->db [schema data]
   (m/encode [:and

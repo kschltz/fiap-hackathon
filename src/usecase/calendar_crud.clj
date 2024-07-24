@@ -13,10 +13,12 @@
 
 
 (defn update-calendar [node calendar]
-  (let [{:xt/keys [id] :as new-data} (base/->db calendar/Calendar calendar)
+  (base/assert [:map [:id {:error-message "ID obrigatório"} :string]] calendar)
+  (let [id (:id calendar)
         old-data (xt/entity (xt/db node) id)
-        to-insert (merge old-data new-data)]
-    (create-calendar node calendar)))
+        to-insert (merge old-data calendar)]
+    (tap> [::20 to-insert])
+    (create-calendar node to-insert)))
 
 (comment
   (malli.generator/sample calendar/Calendar)
@@ -36,7 +38,6 @@
         (update :availabilities
                 #(conj % {:from (LocalTime/of 14 0)
                           :to   (LocalTime/of 19 0)}))))
-
 
   (xt/q (user/db) '{:find  [(pull e [*])]
                     :where [[e :xt/type :calendar]]}))

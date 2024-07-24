@@ -11,7 +11,8 @@
   (m/-simple-schema
     {:type            ::Time
      :pred            valid-time?
-     :type-properties {:error-message "horário inválido"
+     :type-properties {:decode/custom-json (fn [x] (LocalTime/parse x))
+                       :error-message "horário inválido"
                        :gen/gen       (gen/fmap
                                         (fn [n] (LocalTime/of (mod n 12)
                                                               (mod n 60)))

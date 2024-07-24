@@ -24,8 +24,6 @@
     (auth/sign auth (json/write-str user))))
 
 
-
-
 (comment
   (base/hashed-compared "pass" (base/hash "pass"))
   (->> (login (user/node) (user/auth)
