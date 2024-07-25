@@ -1,5 +1,7 @@
 # HACKATHON - FIAP SOAT 
 
+[![Coverage Status](https://coveralls.io/repos/github/kschltz/fiap-hackathon/badge.svg)](https://coveralls.io/github/kschltz/fiap-hackathon)
+
 ## Introdução
 
 O Domain-Driven Design (DDD) é uma abordagem para o desenvolvimento de software que prioriza a modelagem de um domínio complexo, a fim de refletir um entendimento profundo do problema a ser resolvido. Para uma compreensão mais aprofundada do DDD e como ele foi aplicado neste projeto, consulte o arquivo da [documentação DDD](doc/ddd.md).

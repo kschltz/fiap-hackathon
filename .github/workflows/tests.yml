@@ -1,0 +1,40 @@
+name: tests
+
+on: [ push ]
+
+jobs:
+
+  clojure:
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # It is important to install java before installing clojure tools which needs java
+      # exclusions: babashka, clj-kondo and cljstyle
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '22'
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@12.5
+        with:
+          cli: 1.11.3.1463               # Clojure CLI based on tools.deps
+
+
+      - name: Execute tests
+        run: clojure -T:build test
+
+      - name: list project
+        run: ls -la
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
