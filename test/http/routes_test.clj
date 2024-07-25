@@ -27,7 +27,7 @@
 (deftest test-search-medic
   (testing "Successful search"
     (let [response (-> (client/get
-                         "http://localhost:8080/medic?especialidade=oftalmologia"
+                         "http://localhost:8081/medic?especialidade=oftalmologia"
                          {:content-type      :json
                           :throw-exceptions? false
                           :headers           {"Authorization" (token "medico")}})
@@ -37,7 +37,7 @@
       (is (some? (:medics (:body response))))))
 
   (testing "Search with invalid parameter"
-    (let [response (client/get "http://localhost:8080/medic?especialidade=invalid"
+    (let [response (client/get "http://localhost:8081/medic?especialidade=invalid"
                                {:content-type      :json
                                 :throw-exceptions? false
                                 :headers           {"Authorization" (token "medico")}})]
@@ -47,7 +47,7 @@
 (deftest test-save-calendar
   (testing "Save calendar successfully"
     (let [response (client/post
-                     "http://localhost:8080/medic/calendar"
+                     "http://localhost:8081/medic/calendar"
                      {:content-type      :json
                       :throw-exceptions? false
                       :headers           {"Authorization" (token "medico")}
@@ -56,7 +56,7 @@
       (is (= 200 (:status response)))))
 
   (testing "Save calendar with invalid data"
-    (let [response (client/post "http://localhost:8080/medic/calendar"
+    (let [response (client/post "http://localhost:8081/medic/calendar"
                                 {:content-type      :json
                                  :throw-exceptions? false
                                  :headers           {"Authorization" (token "medico")}
@@ -66,7 +66,7 @@
 
 (deftest test-login
   (testing "Successful login"
-    (let [response (client/post "http://localhost:8080/login"
+    (let [response (client/post "http://localhost:8081/login"
                                 {:content-type      :json
                                  :throw-exceptions? false
                                  :body              (json/write-str
@@ -75,7 +75,7 @@
       (is (= 200 (:status response)))))
 
   (testing "Login with invalid credentials"
-    (let [response (client/post "http://localhost:8080/login"
+    (let [response (client/post "http://localhost:8081/login"
                                 {:content-type      :json
                                  :throw-exceptions? false
                                  :body              (json/write-str {:crm "invalid" :senha "wrong"})})]
