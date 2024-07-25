@@ -14,5 +14,5 @@
         config (aero/read-config (io/resource "config.edn")
                                  {:profile profile})
         _ (ig/load-namespaces config)
-        _ (log/info "strating system...")
-        system (ig/init config)]))
+        _ (log/info "starting system...")]
+    (ig/init config)))

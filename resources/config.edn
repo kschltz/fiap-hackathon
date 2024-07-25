@@ -43,7 +43,8 @@
  {}
 
  :infra.http.server/server
- {:port        8080
+ {:port        #profile{:default 8080
+                        :test    8081}
   :routes      #ig/ref :infra.http.routes/routes
   :app-context {:auth #ig/ref :infra.auth/auth
                 :xtdb #ig/ref :infra.xtdb/xtdb}
