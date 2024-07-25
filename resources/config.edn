@@ -20,7 +20,7 @@
                                           :connection-pool :xtdb.jdbc/connection-pool}}
           :default {}}
  :infra.auth/auth
- {:domain        #env AUTH_DOMAIN
+ {:domain        #or[#env AUTH_DOMAIN "hackathon-fiap-kaue.us.auth0.com"]
   :client_id     #env AUTH_CLIENT_ID
   :client_secret #env AUTH_CLIENT_SECRET
   :audience      #env AUTH_AUDIENCE}
