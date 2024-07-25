@@ -31,7 +31,7 @@
                                                 :fail-threshold 10
                                                 :fail-fast? true}}
                    :jvm-opts ["--add-opens=java.base/java.nio=ALL-UNNAMED"
-                              "-Dio.netty.tryReflectionSetAccessible=true"]}}
+                              "-Dio.netty.tryReflectionSetAccessible=true"]}
            :dev   {:extra-paths ["dev"]
                    :jvm-opts    [;"-Dorg.slf4j.simpleLogger.defaultLogLevel=debug"
                                  ]}
