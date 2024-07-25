@@ -12,7 +12,7 @@
 
 (defn token [user-type]
   (if (= "medico" user-type)
-    (-> (client/post "http://localhost:8080/login"
+    (-> (client/post "http://0.0.0.0:8081/login"
                      {:content-type      :json
                       :throw-exceptions? false
                       :body              (json/write-str
