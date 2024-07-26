@@ -1,27 +1,37 @@
 (ns user
-  (:require [clojure.data.json :as json]
-            [clojure.java.io :as io]
-            [integrant.core :as ig]
-            [aero.core :as aero]
-            [xtdb.api :as xt]
-            [hato.client :as hc]
-            [integrant.repl :refer [clear go halt prep init reset reset-all]]))
+  (:require
+    [aero.core :as aero]
+    [clojure.data.json :as json]
+    [clojure.java.io :as io]
+    [hato.client :as hc]
+    [integrant.core :as ig]
+    [integrant.repl :refer [clear go halt prep init reset reset-all]]
+    [xtdb.api :as xt]))
+
 
 (integrant.repl/set-prep! #(ig/prep (doto (aero/read-config (io/resource "config.edn")
                                                             {:profile :dev})
                                       ig/load-namespaces)))
 
-(defn node []
+
+(defn node
+  []
   (:infra.xtdb/xtdb integrant.repl.state/system))
 
-(defn db []
+
+(defn db
+  []
   (xt/db (:infra.xtdb/xtdb integrant.repl.state/system)))
 
-(defn auth []
+
+(defn auth
+  []
   (:infra.auth/auth integrant.repl.state/system))
 
-(defn store-bev [& {:keys [alcoholic? storage-unit-id]
-                    :or   {storage-unit-id 1}}]
+
+(defn store-bev
+  [& {:keys [alcoholic? storage-unit-id]
+      :or   {storage-unit-id 1}}]
 
   (let [[b1 b2] (->
                   "http://localhost:8080/beverage"
@@ -41,5 +51,5 @@
                                         :employee        "KAUE"})
                   :content-type      :json
                   :throw-exceptions? false})
-        (update :body json/read-str)))
-  )
+        (update :body json/read-str))))
+

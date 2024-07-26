@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16.0
+    restart: always
+    container_name: hackathon-db
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    networks:
+      - hackathon
+
+  hackathon:
+    build: .
+    depends_on:
+      - db
+    volumes:
+      - m2-repo:/usr/share/maven
+
+    env_file: ".env"
+
+    networks:
+      - hackathon
+    ports:
+      - "8080:8080"
+
+    command: ["prod"]
+volumes:
+  m2-repo:
+
+networks:
+  hackathon:
