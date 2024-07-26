@@ -65,7 +65,7 @@ clj -A:dev:test
 Após rodar o comando acima, você inicializa o ambiente com:
 
 ```clojure
-(go)
+(reset-all)
 ```
 
 #### Rodando pelo docker
