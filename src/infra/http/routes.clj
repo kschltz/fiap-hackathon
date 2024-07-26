@@ -3,6 +3,7 @@
             [usecase.login :as uc.login]
             [infra.http.server :as server]
             [infra.http.routes.medic :as routes.medic]
+            [infra.http.routes.appointment :as routes.appointment]
             [integrant.core :as ig]))
 
 (defn login [{:keys [app json-params]}]
@@ -31,7 +32,8 @@
     ["/login"
      {:get  `echo
       :post `login}]
-    routes.medic/routes]])
+    routes.medic/routes
+    routes.appointment/routes]])
 
 
 (comment

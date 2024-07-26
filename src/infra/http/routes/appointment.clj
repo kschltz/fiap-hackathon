@@ -48,11 +48,49 @@
        :body (.getMessage e)})))
 
 (def routes
-  [["/patient/appointment" ^:interceptors [(server/type-exclusive-interceptor "paciente")]
-    {:post `schedule-appointment
-     :put  `delete-appointment}]
-   ["/medic/manage-appointment" ^:interceptors [(server/type-exclusive-interceptor "medico")]
-    {:put `manage-appointment}]])
+  ["/patient/appointment" ^:interceptors [server/authenticate-interceptor
+                                          (server/type-exclusive-interceptor "paciente")]
+   {:post `schedule-appointment
+    :put  `delete-appointment}
+   "/medic/manage-appointment" ^:interceptors [server/authenticate-interceptor
+                                               (server/type-exclusive-interceptor "medico")]
+   {:put `manage-appointment}])
 
 (comment
+
+
+
+  (hato.client/get
+    "http://localhost:8080/medic?especialidade=oftalmologia"
+    {:content-type :json
+     :headers      {"Authorization"
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.IntcIm5vbWVcIjpcIkRlbnRpc3RvXCIsXCJlc3BlY2lhbGlkYWRlXCI6XCJvZG9udG9sb2dpYVwiLFwidHlwZVwiOlwibWVkaWNvXCIsXCJjcm1cIjpcIjY1NDUzNi00NC1TUFwiLFwic2VuaGFcIjpcImJjcnlwdCtzaGE1MTIkMTMyMDg0MzcxN2ZmMTc3OWY1ZDVjNTZiNjYxMjZmYmMkMTIkMTFiMjRiNmE3ZmEwY2Q2MTE5NzlmNDM3NGNmZGY4ZWY2Zjg0NzQwNzhiMTY0YWYyXCIsXCJpZFwiOlwiYzNlNDdjMjktMzFiNC00ZTQ5LWE0MDgtMTc5NzcyODIzZjdjXCIsXCJleHBpcmVzLWF0XCI6XCIyMDI0LTA3LTIzVDIxOjMxOjUwLjU5MzU5NjgzMlwifSI.KFxu_kcBo8Dmalwn-XXp64zoVg5b7YQppn6dOdj0o7M"}})
+
+
+  (hato.client/post
+    "http://localhost:8080/medic/calendar"
+    {:content-type :json
+     :headers
+     {"Authorization"
+      "Bearer eyJhbGciOiJIUzI1NiJ9.IntcIm5vbWVcIjpcIkRlbnRpc3RvXCIsXCJlc3BlY2lhbGlkYWRlXCI6XCJvZG9udG9sb2dpYVwiLFwidHlwZVwiOlwibWVkaWNvXCIsXCJjcm1cIjpcIjY1NDUzNi00NC1TUFwiLFwic2VuaGFcIjpcImJjcnlwdCtzaGE1MTIkMTMyMDg0MzcxN2ZmMTc3OWY1ZDVjNTZiNjYxMjZmYmMkMTIkMTFiMjRiNmE3ZmEwY2Q2MTE5NzlmNDM3NGNmZGY4ZWY2Zjg0NzQwNzhiMTY0YWYyXCIsXCJpZFwiOlwiYzNlNDdjMjktMzFiNC00ZTQ5LWE0MDgtMTc5NzcyODIzZjdjXCIsXCJleHBpcmVzLWF0XCI6XCIyMDI0LTA3LTIzVDIxOjMxOjUwLjU5MzU5NjgzMlwifSI.KFxu_kcBo8Dmalwn-XXp64zoVg5b7YQppn6dOdj0o7M"}
+     :body         (json/write-str
+                     {:year           2024
+                      :month          9
+                      :day            19
+                      :availabilities [{:from (str (LocalTime/of 8 0))
+                                        :to   (str (LocalTime/of 12 0))}]})})
+
+
+  (hato.client/put
+    "http://localhost:8080/medic/calendar"
+    {:content-type :json
+     :headers
+     {"Authorization"
+      "Bearer eyJhbGciOiJIUzI1NiJ9.IntcIm5vbWVcIjpcIkRlbnRpc3RvXCIsXCJlc3BlY2lhbGlkYWRlXCI6XCJvZG9udG9sb2dpYVwiLFwidHlwZVwiOlwibWVkaWNvXCIsXCJjcm1cIjpcIjY1NDUzNi00NC1TUFwiLFwic2VuaGFcIjpcImJjcnlwdCtzaGE1MTIkMTMyMDg0MzcxN2ZmMTc3OWY1ZDVjNTZiNjYxMjZmYmMkMTIkMTFiMjRiNmE3ZmEwY2Q2MTE5NzlmNDM3NGNmZGY4ZWY2Zjg0NzQwNzhiMTY0YWYyXCIsXCJpZFwiOlwiYzNlNDdjMjktMzFiNC00ZTQ5LWE0MDgtMTc5NzcyODIzZjdjXCIsXCJleHBpcmVzLWF0XCI6XCIyMDI0LTA3LTIzVDIxOjMxOjUwLjU5MzU5NjgzMlwifSI.KFxu_kcBo8Dmalwn-XXp64zoVg5b7YQppn6dOdj0o7M"}
+     :body         (json/write-str
+                     {:id   "2024-9-19#c3e47c29-31b4-4e49-a408-179772823f7c"
+                      :availabilities [{:from (str (LocalTime/of 8 0))
+                                        :to   (str (LocalTime/of 15 0))}]})})
+
   )
+

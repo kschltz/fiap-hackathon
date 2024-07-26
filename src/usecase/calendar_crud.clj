@@ -19,20 +19,18 @@
         to-insert (merge old-data calendar)]
     (create-calendar node to-insert)))
 
-#_(defn slot-available? [availabilities time]
-  (some #(and (= (:from %) time) (not (:booked %))) availabilities))
-
 (defn get-calendar [node medic-id date]
   (xt/entity (xt/db node) (str date "#" medic-id)))
 
 (defn book-appointment [node medic-id date time patient-id]
   (let [calendar (get-calendar node medic-id date)
-        updated-availabilities (map (fn [slot]
-                                      (if (and (= (:from slot) time) (not (:booked slot)))
-                                        (assoc slot :booked true :patient-id patient-id)
-                                        slot))
-                                    (:availabilities calendar))
-        updated-calendar (assoc calendar :availabilities updated-availabilities)]
+        updated-availabilities (-> (map (fn [slot]
+                                          (if (and (= (:from slot) time) (not (:booked slot)))
+                                            (assoc slot :booked true :patient-id patient-id)
+                                            slot))
+                                        (:availabilities calendar)))
+        updated-calendar (-> (assoc calendar :availabilities updated-availabilities :id (str (:xt/id calendar)))
+                             (dissoc :xt/id :xt/type))]
     (update-calendar node updated-calendar)))
 
 (defn unbook-appointment [node medic-id date time]
@@ -42,7 +40,8 @@
                                         (dissoc slot :booked :patient-id)
                                         slot))
                                     (:availabilities calendar))
-        updated-calendar (assoc calendar :availabilities updated-availabilities)]
+        updated-calendar (-> (assoc calendar :availabilities updated-availabilities :id (str (:xt/id calendar)))
+                             (dissoc :xt/id :xt/type))]
     (update-calendar node updated-calendar)))
 
 (comment
@@ -81,5 +80,8 @@
     {:medic-id #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
      :date     "2024-09-19"
      :time     "11:00"})
+
+  #_(defn slot-available? [availabilities time]
+      (some #(and (= (:from %) time) (not (:booked %))) availabilities))
 
   )
