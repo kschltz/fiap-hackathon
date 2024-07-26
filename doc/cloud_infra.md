@@ -10,24 +10,18 @@ Os seguintes serviços da AWS foram escolhidos para atender aos requisitos funci
 
 4. **AWS S3 (Simple Storage Service)**: O S3 é um serviço de armazenamento de objetos que oferece escalabilidade, disponibilidade de dados, segurança e desempenho. Ele foi escolhido para hospedar o repositório de prontuários devido à sua durabilidade, segurança e facilidade de uso.
 
-5. **AWS Lambda**: O Lambda permite executar código sem provisionar ou gerenciar servidores. Ele foi escolhido para lidar com a autenticação de usuários devido à sua escalabilidade, desempenho e capacidade de executar código em resposta a eventos.
+5.**AWS CloudWatch**: O CloudWatch é usado para coletar e rastrear métricas, coletar e monitorar arquivos de log e responder a eventos do sistema. Ele foi escolhido para monitorar o serviço monolítico devido à sua capacidade de fornecer insights operacionais.
 
-6. **AWS CloudWatch**: O CloudWatch é usado para coletar e rastrear métricas, coletar e monitorar arquivos de log e responder a eventos do sistema. Ele foi escolhido para monitorar o serviço monolítico devido à sua capacidade de fornecer insights operacionais.
+6.**AWS Auto Scaling**: O Auto Scaling permite ajustar automaticamente a capacidade para manter o desempenho estável e previsível a um custo baixo. Ele foi escolhido para lidar com a escalabilidade do serviço monolítico com base no número de requisições.
 
-7. **AWS Auto Scaling**: O Auto Scaling permite ajustar automaticamente a capacidade para manter o desempenho estável e previsível a um custo baixo. Ele foi escolhido para lidar com a escalabilidade do serviço monolítico com base no número de requisições.
-
-Esses serviços da AWS, quando usados em conjunto, podem atender aos requisitos funcionais e não funcionais descritos no arquivo TXT, fornecendo uma solução robusta, escalável e segura para o sistema de telemedicina.
 
 ```mermaid 
 graph TB
-    A[Usuário] -->|Requisição| B[AWS API Gateway]
-    B -->|Encaminha requisição| C[AWS Elastic Load Balancer]
-    C -->|Distribui carga| D[AWS ECS - Serviço Monolítico]
+    A[Usuário] -->|Requisição| D[AWS ECS - Serviço Monolítico]
     D -->|Consulta| G[AWS RDS - Repositório de Médicos]
     D -->|Consulta| H[AWS RDS - Repositório de Pacientes]
     D -->|Consulta| I[AWS RDS - Repositório de Consultas]
     D -->|Consulta| J[AWS S3 - Repositório de Prontuários]
-    B -->|Autenticação| E[AWS Lambda - Função de Autenticação]
     M[AWS CloudWatch] -->|Monitora| D
     N[AWS Auto Scaling] -->|Escala baseada em requisições| D
 ```
