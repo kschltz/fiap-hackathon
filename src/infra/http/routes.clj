@@ -1,17 +1,21 @@
 (ns infra.http.routes
-  (:require [clojure.data.json :as json]
-            [usecase.login :as uc.login]
-            [infra.http.server :as server]
-            [infra.http.routes.medic :as routes.medic]
-            [infra.http.routes.appointment :as routes.appointment]
-            [integrant.core :as ig]))
+  (:require
+    [clojure.data.json :as json]
+    [infra.http.routes.medic :as routes.medic]
+    [infra.http.routes.appointment :as routes.appointment]
+    [infra.http.server :as server]
+    [integrant.core :as ig]
+    [usecase.login :as uc.login]))
 
-(defn login [{:keys [app json-params]}]
+
+(defn login
+  [{:keys [app json-params]}]
   (try
     (let [{:keys [xtdb auth]} app
           token (uc.login/login xtdb auth json-params)]
       (if token
         {:status 200
+         :headers {"Content-Type" "application/json"}
          :body   {:token (str "Bearer " token)}}
         {:status 404}))
     (catch Exception e
@@ -19,12 +23,18 @@
        :headers {"Content-Type" "application/json"}
        :body    (.getMessage e)})))
 
-(defn echo [r]
+
+(defn echo
+  [r]
   {:status  200
    :headers {"Content-Type" "application/json"}
    :body    (str r)})
 
-(defn secret [_x] {:status 200 :body "secret"})
+
+(defn secret
+  [_x]
+  {:status 200 :body "secret"})
+
 
 (defmethod ig/init-key ::routes [_ {:keys []}]
   [[["/secret" ^:interceptors [server/authenticate-interceptor]
