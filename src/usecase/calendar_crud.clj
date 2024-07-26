@@ -20,7 +20,7 @@
     (tap> [::20 to-insert])
     (create-calendar node to-insert)))
 
-(defn slot-available? [availabilities time]
+#_(defn slot-available? [availabilities time]
   (some #(and (= (:from %) time) (not (:booked %))) availabilities))
 
 (defn get-calendar [node medic-id date]
@@ -36,6 +36,15 @@
         updated-calendar (assoc calendar :availabilities updated-availabilities)]
     (update-calendar node updated-calendar)))
 
+(defn unbook-appointment [node medic-id date time]
+  (let [calendar (get-calendar node medic-id date)
+        updated-availabilities (map (fn [slot]
+                                      (if (and (= (:from slot) time) (:booked slot))
+                                        (dissoc slot :booked :patient-id)
+                                        slot))
+                                    (:availabilities calendar))
+        updated-calendar (assoc calendar :availabilities updated-availabilities)]
+    (update-calendar node updated-calendar)))
 
 (comment
   (malli.generator/sample calendar/Calendar)

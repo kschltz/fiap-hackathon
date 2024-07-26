@@ -47,31 +47,12 @@
        :headers {"Content-Type" "application/json"}
        :body    (.getMessage e)})))
 
-(defn schedule-appointment [{:keys [app json-params user]}]
-  (try
-    (let [{:strs [id]} user
-          {:keys [xtdb]} app
-          {:keys [medic-id date time]} json-params
-          calendar (uc.calendar-crud/get-calendar xtdb medic-id date)
-          slot-available? (uc.calendar-crud/slot-available? (:availabilities calendar) time)]
-      (if (and calendar slot-available?)
-        (do
-          (uc.calendar-crud/book-appointment xtdb medic-id date time id)
-          {:status 200 :body {:message "Appointment scheduled successfully"}})
-        {:status 400 :body {:message "Time slot not available"}}))
-    (catch Exception e
-      {:status 500
-       :headers {"Content-Type" "application/json"}
-       :body (.getMessage e)})))
-
 (def routes
   ["/medic" ^:interceptors [server/authenticate-interceptor]
    {:get `search-medic}
    ["/calendar" ^:interceptors [(server/type-exclusive-interceptor "medico")]
     {:post `save-calendar
-     :put  `update-calendar}]
-   ["/appointment" ^:interceptors [server/authenticate-interceptor]
-    {:post `schedule-appointment}]])
+     :put  `update-calendar}]])
 
 
 (comment
