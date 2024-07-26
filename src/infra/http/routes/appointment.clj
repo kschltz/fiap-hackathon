@@ -1,7 +1,5 @@
 (ns infra.http.routes.appointment
-  (:require [clojure.data.json :as json]
-            [infra.http.server :as server]
-            [model.base :as base]
+  (:require [model.base :as base]
             [model.appointment :as appointment]
             [usecase.appointment :as uc.appointment]))
 
@@ -53,4 +51,3 @@
     :put  `delete-appointment}
    "/medic/manage-appointment"
    {:put `manage-appointment}])
-
