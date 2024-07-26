@@ -32,3 +32,5 @@
 *.iml
 .clj-kondo
 /postgresql
+
+.env
