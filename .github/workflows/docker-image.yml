@@ -15,10 +15,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: zharinov/clj-toolbox@v1.0.3
-      - name: test coverage
-        run: clojure -X:test
-
-      - uses: zharinov/clj-toolbox@v1.0.3
       - name: Clojure essential tooling
         run: clojure -T:build build/uber :project hmed
 

@@ -17,7 +17,6 @@
   (let [id (:id calendar)
         old-data (xt/entity (xt/db node) id)
         to-insert (merge old-data calendar)]
-    (tap> [::20 to-insert])
     (create-calendar node to-insert)))
 
 #_(defn slot-available? [availabilities time]
