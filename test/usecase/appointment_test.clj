@@ -8,7 +8,7 @@
 (deftest create-appointment-test
   (with-open [node (xt/start-node {})]
     (let [sample-appointment {:medic-id   #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
-                              :date       "2024-9-19"
+                              :date       "2024-09-19"
                               :time       (LocalTime/of 8 0)
                               :patient-id #uuid"12345678-1234-1234-1234-123456789012"}]
 
@@ -29,7 +29,7 @@
 (deftest cancel-appointment-test
   (with-open [node (xt/start-node {})]
     (let [sample-appointment {:medic-id   #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
-                              :date       "2024-9-19"
+                              :date       "2024-09-19"
                               :time       (LocalTime/of 8 0)
                               :patient-id #uuid"12345678-1234-1234-1234-123456789012"}
           sample-calendar {:medic-id       #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
@@ -46,6 +46,7 @@
 
       (xt/await-tx node (uc.appointment/cancel-appointment node sample-appointment))
 
+      (Thread/sleep 3000)
       (let [result (xt/q (xt/db node) '{:find  [(pull e [*])]
                                         :where [[e :xt/type :appointment]]})]
         (is (= [{:date       "2024-9-19"
@@ -68,7 +69,7 @@
                                             {:from (LocalTime/of 9 0)
                                              :to   (LocalTime/of 10 0)}]}
           sample-appointment {:medic-id   #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
-                              :date       "2024-9-19"
+                              :date       "2024-09-19"
                               :time       (LocalTime/of 8 0)
                               :patient-id #uuid"12345678-1234-1234-1234-123456789012"
                               :status     :pending}
@@ -119,7 +120,7 @@
                                             {:from (LocalTime/of 9 0)
                                              :to   (LocalTime/of 10 0)}]}
           sample-appointment {:medic-id   #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
-                              :date       "2024-9-19"
+                              :date       "2024-09-19"
                               :time       (LocalTime/of 8 0)
                               :patient-id #uuid"12345678-1234-1234-1234-123456789012"
                               :status     :pending}

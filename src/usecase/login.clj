@@ -10,7 +10,7 @@
   (let [db (xt/db xtdb-node)
         doc-clause (if crm
                      ['e :crm crm]
-                     ['e :cpf (base/hash cpf)])
+                     ['e :cpf cpf])
         db-data (ffirst (xt/q db
                               {:find  '[(pull e [*])]
                                :in    '[h-compare senha]

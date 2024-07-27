@@ -4,10 +4,16 @@
             [xtdb.api :as xt]
             [usecase.calendar-crud :as uc.calendar-crud]))
 
+
+(defn remove-leading-zero-from-month [date]
+  (let [[_ year month day] (re-matches #"(\d{4})-(\d{2})-(\d{2})" (str date))
+        month-int (Integer/parseInt month)]
+    (format "%s-%d-%s" year month-int day)))
+
 (defn create-appointment [xtdb {:keys [medic-id date time patient-id]}]
   (let [appointment {:medic-id medic-id
-                     :date date
-                     :time time
+                     :date     (remove-leading-zero-from-month date)
+                     :time     time
                      :patient-id patient-id
                      :status :pending}]
     (->> appointment
@@ -18,6 +24,7 @@
 
 (defn cancel-appointment [xtdb {:keys [medic-id date time patient-id]}]
   (let [db (xt/db xtdb)
+        date (remove-leading-zero-from-month date)
         appointment-id (str date "#" medic-id "#" time "#" patient-id)
         appointment (xt/entity db appointment-id)]
     (if (and appointment (= (:patient-id appointment) patient-id))
