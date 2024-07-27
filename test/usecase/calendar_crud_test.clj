@@ -59,3 +59,56 @@
                  :xt/type        :calendar
                  :year           2024}]
                (first result)))))))
+
+
+(deftest book-appointment-test
+  (with-open [node (xt/start-node {})]
+    (let [initial-calendar {:medic-id       #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
+                            :year           2024
+                            :month          9
+                            :day            19
+                            :availabilities [{:from (LocalTime/of 8 0)
+                                              :to   (LocalTime/of 12 0)
+                                              :booked false}]}
+          patient-id #uuid"12345678-1234-1234-1234-123456789012"]
+      (xt/await-tx node (uc.calendar-crud/create-calendar node initial-calendar))
+      (xt/await-tx node (uc.calendar-crud/book-appointment node #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6" "2024-9-19" (LocalTime/of 8 0) patient-id))
+      (let [result (xt/q (xt/db node) '{:find  [(pull e [*])]
+                                        :where [[e :xt/type :calendar]]})]
+        (is (= [{:availabilities [{:booked     true
+                                   :from       (LocalTime/of 8 0)
+                                   :patient-id #uuid "12345678-1234-1234-1234-123456789012"
+                                   :to         (LocalTime/of 12 0)}]
+                 :day            19
+                 :id             "2024-9-19#01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
+                 :medic-id       #uuid "01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
+                 :month          9
+                 :xt/id          "2024-9-19#01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
+                 :xt/type        :calendar
+                 :year           2024}]
+               (first result)))))))
+
+(deftest unbook-appointment-test
+  (with-open [node (xt/start-node {})]
+    (let [initial-calendar {:medic-id       #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
+                            :year           2024
+                            :month          9
+                            :day            19
+                            :availabilities [{:from (LocalTime/of 8 0)
+                                              :to   (LocalTime/of 12 0)
+                                              :booked true
+                                              :patient-id #uuid"12345678-1234-1234-1234-123456789012"}]}]
+      (xt/await-tx node (uc.calendar-crud/create-calendar node initial-calendar))
+      (xt/await-tx node (uc.calendar-crud/unbook-appointment node #uuid"01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6" "2024-9-19" (LocalTime/of 8 0)))
+      (let [result (xt/q (xt/db node) '{:find  [(pull e [*])]
+                                        :where [[e :xt/type :calendar]]})]
+        (is (= [{:availabilities [{:from (LocalTime/of 8 0)
+                                   :to   (LocalTime/of 12 0)}]
+                 :day            19
+                 :id             "2024-9-19#01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
+                 :medic-id       #uuid "01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
+                 :month          9
+                 :xt/id          "2024-9-19#01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
+                 :xt/type        :calendar
+                 :year           2024}]
+               (first result)))))))

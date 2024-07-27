@@ -2,6 +2,7 @@
   (:require
     [clojure.data.json :as json]
     [infra.http.routes.medic :as routes.medic]
+    [infra.http.routes.appointment :as routes.appointment]
     [infra.http.server :as server]
     [integrant.core :as ig]
     [usecase.login :as uc.login]))
@@ -41,7 +42,8 @@
     ["/login"
      {:get  `echo
       :post `login}]
-    routes.medic/routes]])
+    routes.medic/routes
+    routes.appointment/routes]])
 
 
 (comment
@@ -61,4 +63,3 @@
       "Bearer eyJhbGciOiJIUzI1NiJ9.IntcIm5vbWVcIjpcIkRlbnRpc3RvXCIsXCJlc3BlY2lhbGlkYWRlXCI6XCJvZG9udG9sb2dpYVwiLFwidHlwZVwiOlwibWVkaWNvXCIsXCJjcm1cIjpcIjY1NDUzNi00NC1TUFwiLFwic2VuaGFcIjpcImJjcnlwdCtzaGE1MTIkMTMyMDg0MzcxN2ZmMTc3OWY1ZDVjNTZiNjYxMjZmYmMkMTIkMTFiMjRiNmE3ZmEwY2Q2MTE5NzlmNDM3NGNmZGY4ZWY2Zjg0NzQwNzhiMTY0YWYyXCIsXCJpZFwiOlwiYzNlNDdjMjktMzFiNC00ZTQ5LWE0MDgtMTc5NzcyODIzZjdjXCIsXCJleHBpcmVzLWF0XCI6XCIyMDI0LTA3LTIzVDIxOjMxOjUwLjU5MzU5NjgzMlwifSI.KFxu_kcBo8Dmalwn-XXp64zoVg5b7YQppn6dOdj0o7M"}})
 
   )
-
