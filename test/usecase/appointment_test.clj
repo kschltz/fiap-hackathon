@@ -46,6 +46,7 @@
 
       (xt/await-tx node (uc.appointment/cancel-appointment node sample-appointment))
 
+      (Thread/sleep 3000)
       (let [result (xt/q (xt/db node) '{:find  [(pull e [*])]
                                         :where [[e :xt/type :appointment]]})]
         (is (= [{:date       "2024-9-19"
