@@ -1,4 +1,5 @@
 # HACKATHON - FIAP SOAT
+[![Coverage Status](https://coveralls.io/repos/github/kschltz/fiap-hackathon/badge.svg)](https://coveralls.io/github/kschltz/fiap-hackathon)
 
 <!--toc:start-->
 
@@ -12,7 +13,7 @@
   - [Rodando o Projeto](#rodando-o-projeto) - [Rodando pelo docker](#rodando-pelo-docker)
   <!--toc:end-->
 
-[![Coverage Status](https://coveralls.io/repos/github/kschltz/fiap-hackathon/badge.svg)](https://coveralls.io/github/kschltz/fiap-hackathon)
+
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7462440-a3586d04-59d2-49cf-b4e0-bb909e3cf1d7?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D7462440-a3586d04-59d2-49cf-b4e0-bb909e3cf1d7%26entityType%3Dcollection%26workspaceId%3D89237b62-8986-4c78-81a4-725c13c2db8e#?env%5B%5Blocal%5D%20hackathon%5D=W3sia2V5IjoiaG9zdCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiZW5hYmxlZCI6dHJ1ZSwidHlwZSI6ImRlZmF1bHQiLCJzZXNzaW9uVmFsdWUiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJzZXNzaW9uSW5kZXgiOjB9LHsia2V5IjoidG9rZW4iLCJ2YWx1ZSI6IiIsImVuYWJsZWQiOnRydWUsInR5cGUiOiJkZWZhdWx0Iiwic2Vzc2lvblZhbHVlIjoiQmVhcmVyLi4uIiwic2Vzc2lvbkluZGV4IjoxfSx7ImtleSI6ImVzcGVjaWFsaWRhZGUiLCJ2YWx1ZSI6Im9mdGFsbW9sb2dpYSIsImVuYWJsZWQiOnRydWUsInR5cGUiOiJkZWZhdWx0Iiwic2Vzc2lvblZhbHVlIjoib2Z0YWxtb2xvZ2lhIiwic2Vzc2lvbkluZGV4IjoyfV0=)
 
 ## Introdução
@@ -84,10 +85,8 @@ docker compose up -d --build
 
 Isso irá criar um container para o postgres e para o app e irá rodar em `localhost:8080`
 
-```
+
 
 ### Licença
 
 Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
-```
