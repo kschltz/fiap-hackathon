@@ -81,3 +81,17 @@
                                  :body              (json/write-str {:crm "invalid" :senha "wrong"})})]
       (is (= 404 (:status response))))))
 
+(deftest create-appointment-test
+  (testing "Create appointment successfully"
+    (let [response (client/post
+                     "http://localhost:8081/patient/appointment"
+                     {:content-type      :json
+                      :throw-exceptions? true
+                      :headers           {}
+                      :body              (json/write-str
+                                           {:medic-id "01582fa7-cd5a-4f0a-be8c-9b776a6ca3d6"
+                                            :date     "2024-09-19"
+                                            :time     "08:00"})})]
+      (is (= 200 (:status response)))
+      (is (= {:message "Appointment requested successfully"}
+             (json/read-str (:body response) :key-fn keyword))))))
