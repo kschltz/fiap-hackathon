@@ -1,25 +1,34 @@
 (ns infra.http.routes.medic
-  (:require [clojure.data.json :as json]
-            [infra.http.server :as server]
-            [model.base :as base]
-            [model.calendar :as calendar]
-            [usecase.calendar-crud :as uc.calendar-crud]
-            [usecase.medic-search :as uc.medic-search])
-  (:import (java.time LocalTime)))
+  (:require
+    [clojure.data.json :as json]
+    [infra.http.server :as server]
+    [model.base :as base]
+    [model.calendar :as calendar]
+    [usecase.calendar-crud :as uc.calendar-crud]
+    [usecase.medic-search :as uc.medic-search])
+  (:import
+    (java.time
+      LocalTime)))
 
-(defn search-medic [{:keys [app query-params]}]
+
+(defn search-medic
+  [{:keys [app query-params]}]
   (try
     (let [{:keys [xtdb]} app
           especialidade (:especialidade query-params)
-          medics (uc.medic-search/search-medic xtdb especialidade)]
+          result (uc.medic-search/search-medic xtdb especialidade)
+          medics (map (fn [medic] (dissoc medic :senha)) result)]
       {:status 200
+       :headers {"Content-Type" "application/json"}
        :body   {:medics medics}})
     (catch Exception e
       {:status  500
        :headers {"Content-Type" "application/json"}
        :body    (.getMessage e)})))
 
-(defn save-calendar [{:keys [app json-params user]}]
+
+(defn save-calendar
+  [{:keys [app json-params user]}]
   (try
     (let [{:strs [id]} user
           {:keys [xtdb]} app
@@ -33,7 +42,9 @@
        :headers {"Content-Type" "application/json"}
        :body    (.getMessage e)})))
 
-(defn update-calendar [{:keys [app json-params user]}]
+
+(defn update-calendar
+  [{:keys [app json-params user]}]
   (try
     (let [{:strs [id]} user
           {:keys [xtdb]} app
@@ -46,6 +57,7 @@
       {:status  500
        :headers {"Content-Type" "application/json"}
        :body    (.getMessage e)})))
+
 
 (def routes
   ["/medic" ^:interceptors [server/authenticate-interceptor]
